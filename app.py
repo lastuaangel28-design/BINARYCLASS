@@ -65,14 +65,16 @@ if uploaded_file is not None:
         if score >= 0.5:
             label = 'Dog'
             emoji = '🐶'
-            confidence = score * 100
         else:
             label = 'Cat'
             emoji = '🐱'
-            confidence = (1.0 - score) * 100
 
+        confidence = abs(score - 0.5) * 200
         st.success(f"Prediction: **{label}** {emoji}")
         st.write(f"Confidence: {confidence:.2f}%")
+
+        if confidence < 60:
+            st.warning("Low confidence: this prediction is close to 50% and may be unreliable.")
             
     except Exception as e:
         st.error(f"An error occurred: {e}")
